@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" fill="none">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1200" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#292329"/>
+      <stop offset="1" stop-color="#111"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="360" y1="280" x2="830" y2="690" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#cf3a67"/>
+      <stop offset="1" stop-color="#6f294a"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#background)" d="M0 0h1200v900H0z"/>
+  <path stroke="#ffffff18" d="M60 60h1080v780H60z"/>
+  <path stroke="#ffffff12" d="M100 100h1000v700H100z"/>
+  <path fill="url(#accent)" d="m600 270 210 120v220L600 730 390 610V390l210-120Z"/>
+  <path stroke="#f3f1ec" stroke-opacity=".72" stroke-width="3" d="m600 330 155 90v160l-155 90-155-90V420l155-90Z"/>
+  <circle cx="600" cy="500" r="44" fill="#f3f1ec"/>
+  <text x="600" y="790" fill="#f3f1ec" font-family="Arial, sans-serif" font-size="24" letter-spacing="6" text-anchor="middle">SUSTITUYE POR TU IMAGEN</text>
+</svg>
