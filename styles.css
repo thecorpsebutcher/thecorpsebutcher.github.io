@@ -66,8 +66,8 @@ a {
 
 .wordmark {
   display: inline-flex;
-  width: 40px;
-  height: 48px;
+  width: 32px;
+  height: 40px;
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
@@ -77,6 +77,8 @@ a {
   display: block;
   width: 100%;
   height: 100%;
+  max-width: 32px;
+  max-height: 40px;
   object-fit: contain;
 }
 
@@ -122,28 +124,36 @@ a {
 .language-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 8px 10px;
+  gap: 2px;
+  padding: 3px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: transparent;
-  color: var(--muted);
+  background: var(--surface);
+  color: var(--text);
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: 12px;
+  font-weight: 700;
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
   transition: color 180ms ease, border-color 180ms ease;
 }
 
+.language-toggle [data-language-option] {
+  padding: 5px 8px;
+  border-radius: 999px;
+  color: var(--muted);
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
 .language-toggle:hover,
 .language-toggle:focus-visible {
   border-color: var(--accent);
-  color: var(--text);
 }
 
 .language-toggle [data-language-option].is-current {
-  color: var(--accent);
+  background: var(--accent);
+  color: #fff;
 }
 
 .language-toggle:focus-visible {
@@ -445,19 +455,18 @@ a {
 }
 
 .art-gallery {
-  column-count: 3;
-  column-gap: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
 }
 
 .gallery-piece {
   position: relative;
-  display: inline-block;
+  display: block;
   width: 100%;
-  margin-bottom: 18px;
+  align-self: start;
   overflow: hidden;
   background: #171817;
-  break-inside: avoid;
-  vertical-align: top;
 }
 
 .gallery-piece::after {
@@ -504,14 +513,9 @@ a {
   text-shadow: 0 1px 5px #000;
 }
 
-.other-gallery {
-  column-count: 3;
-}
-
 @media (max-width: 900px) {
-  .art-gallery,
-  .other-gallery {
-    column-count: 2;
+  .art-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -870,9 +874,8 @@ a {
     line-height: 1.6;
   }
 
-  .art-gallery,
-  .other-gallery {
-    column-count: 1;
+  .art-gallery {
+    grid-template-columns: 1fr;
   }
 
   .image-lightbox {
