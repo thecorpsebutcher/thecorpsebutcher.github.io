@@ -65,12 +65,19 @@ a {
 }
 
 .wordmark {
-  font: 700 25px var(--font-display);
-  letter-spacing: -2px;
+  display: inline-flex;
+  width: 40px;
+  height: 48px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
 }
 
-.wordmark span {
-  color: var(--accent);
+.wordmark img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .site-nav,
@@ -110,6 +117,38 @@ a {
 .social-links a:hover,
 .site-footer a:hover {
   color: var(--accent);
+}
+
+.language-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 11px;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.language-toggle:hover,
+.language-toggle:focus-visible {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.language-toggle [data-language-option].is-current {
+  color: var(--accent);
+}
+
+.language-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .header-link span,
@@ -406,16 +445,19 @@ a {
 }
 
 .art-gallery {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-auto-rows: 190px;
-  gap: 14px;
+  column-count: 3;
+  column-gap: 18px;
 }
 
 .gallery-piece {
   position: relative;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 18px;
   overflow: hidden;
   background: #171817;
+  break-inside: avoid;
+  vertical-align: top;
 }
 
 .gallery-piece::after {
@@ -426,16 +468,28 @@ a {
   content: "";
 }
 
-.gallery-piece > a {
-  position: absolute;
-  inset: 0;
+.gallery-piece > button {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: 0;
+  border: 0;
+  background: #171817;
+  cursor: zoom-in;
+  overflow: hidden;
 }
 
 .gallery-piece img {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  transition: transform 220ms ease;
+}
+
+.gallery-art-button:hover img,
+.gallery-art-button:focus-visible img {
+  transform: scale(1.04);
 }
 
 .gallery-piece span {
@@ -450,16 +504,19 @@ a {
   text-shadow: 0 1px 5px #000;
 }
 
-.concept-gallery {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-auto-rows: 250px;
+.other-gallery {
+  column-count: 3;
 }
 
-.other-gallery {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+@media (max-width: 900px) {
+  .art-gallery,
+  .other-gallery {
+    column-count: 2;
+  }
 }
 
 .project-art {
+  position: relative;
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: #171817;
@@ -470,6 +527,7 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: opacity 180ms ease;
 }
 
 .project-art > a {
@@ -478,10 +536,75 @@ a {
   height: 100%;
 }
 
+.project-art[data-trailer-id] > iframe {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.project-art[data-trailer-id].is-playing > iframe {
+  opacity: 1;
+}
+
+.project-art[data-trailer-id].is-playing > a img {
+  opacity: 0;
+}
+
 .project-art > a:focus-visible,
-.gallery-piece > a:focus-visible {
+.gallery-piece > button:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: -3px;
+}
+
+.image-lightbox {
+  position: fixed;
+  width: min(96vw, 1440px);
+  height: min(94vh, 1080px);
+  height: min(94dvh, 1080px);
+  max-width: none;
+  max-height: none;
+  padding: 48px 24px 24px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #090909f5;
+  color: var(--text);
+}
+
+.image-lightbox[open] {
+  display: grid;
+  place-items: center;
+}
+
+.image-lightbox::backdrop {
+  background: #000d;
+}
+
+.image-lightbox > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  cursor: zoom-out;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text);
+  font: 24px/1 var(--font-body);
+  cursor: pointer;
 }
 
 .project-meta {
@@ -690,13 +813,6 @@ a {
     gap: 36px;
   }
 
-  .art-gallery,
-  .concept-gallery,
-  .other-gallery {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: 160px;
-  }
-
   .portfolio-section + .portfolio-section {
     margin-top: 72px;
   }
@@ -754,8 +870,17 @@ a {
     line-height: 1.6;
   }
 
+  .art-gallery,
+  .other-gallery {
+    column-count: 1;
+  }
 
-  
+  .image-lightbox {
+    width: 96vw;
+    height: 92vh;
+    height: 92dvh;
+    padding: 48px 12px 12px;
+  }
 }
 
   .gif {
